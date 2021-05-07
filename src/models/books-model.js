@@ -1,8 +1,9 @@
 module.exports = class BooksModel {
-    constructor(id, title, amount, price) {
+    constructor(id, image, title, author, price) {
         this.id = id;
+        this.image = image;
         this.title = title;
-        this.amount = amount;
+        this.author = author;
         this.price = price;
     }
 }
