@@ -3,19 +3,21 @@ const BooksDAO = require('../DAO/books-dao')
 
 function booksController(app, db) {
     const DAO = new BooksDAO(db)
-    app.get('/books', async (req, res) => {
+    app.get('/books', (req, res) => {
         DAO.getBooks()
             .then(books => res.send(books))
             .catch(err => res.send(err))
     })
 
-    app.get('/books/:id', async (req, res) => {
-        DAO.getBookById(book)
+    app.get('/books/:id', (req, res) => {
+        const {id} = req.params
+        DAO.getBookById(id)
             .then(book => res.send(book))
             .catch(err => res.send(err))
     })
 
     app.get('/books/:title', (req, res) => {
+        const {title} = req.params
         DAO.getBookByTitle(title)
             .then(book => res.send(book))
             .catch(err => res.send(err))
@@ -27,7 +29,6 @@ function booksController(app, db) {
         DAO.insertBook(book)
             .then(book => res.send(book))
             .catch(err => res.send(err))
-        console.log(book);
     })
 
     app.put('/books/:id', (req, res) => {
@@ -42,7 +43,7 @@ function booksController(app, db) {
     app.delete('/books/:id', (req, res) => {
         const id = req.params.id
         DAO.getBookById(id)
-            .then(book => res.send(`${book} removido com sucesso`))
+            .then(book => res.send(`Livro removido com sucesso`))
             .catch(err =>  res.send(`Falha ao remover o ${book}`))
     })
 }

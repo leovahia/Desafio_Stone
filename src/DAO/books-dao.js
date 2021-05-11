@@ -1,4 +1,4 @@
-module.exports = class TarefasDAO {
+module.exports = class BooksDAO {
 
     constructor(bd) {
         this.bd = bd;
@@ -15,25 +15,25 @@ module.exports = class TarefasDAO {
         } 
     )}
 
-    getBookById(book) {
+    getBookById(id) {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM LIVROS WHERE ID = (?)'),
-            [book],
+            this.bd.all('SELECT * FROM LIVROS WHERE ID = (?)',
+            [id],
             (err, book) => {
                 if(err) rej(err)
                 else res(book)
-            }
+            })
         })
     }
 
     getBookByTitle(title) {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM LIVROS WHERE TITULO = (?)'),
+            this.bd.all('SELECT * FROM LIVROS WHERE TITULO = (?)',
             [title],
-            (err, title) => {
+            (err, book) => {
                 if(err) rej(err)
-                else res(title)
-            }
+                else res(book)
+            })
         })
     }
 
