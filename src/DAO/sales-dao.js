@@ -39,8 +39,8 @@ module.exports = class SalesDAO {
 
     insertSale(sale) {
         return new Promise((res, rej) => {
-            this.bd.run('INSERT INTO VENDAS (STATUS, DESCRICAO) VALUES (?, ?)'
-            , [sale.status, sale.descricao]
+            this.bd.run('INSERT INTO VENDAS (STATUS, DESCRICAO, PRECO) VALUES (?, ?, ?)'
+            , [sale.status, sale.description, sale.price]
             , (err) => {
                 if(err) rej('Falha ao inserir a venda')
                 else res('Venda inserida com sucesso')
@@ -59,14 +59,14 @@ module.exports = class SalesDAO {
         })
     }
 
-    // deleteBook(book) {
-    //     return new Promise((res, rej) => {
-    //         this.bd.run('DELETE FROM LIVROS WHERE TITULO = (?)'
-    //         , [book]
-    //         , (err) => {
-    //             if(err) rej('Falha ao deletar o livro')
-    //             else res('Livro deletado com sucesso')
-    //         })
-    //     })
-    // }
+    deleteBook(book) {
+        return new Promise((res, rej) => {
+            this.bd.run('DELETE FROM VENDAS WHERE ID = (?)'
+            , [book]
+            , (err) => {
+                if(err) rej('Falha ao deletar o livro')
+                else res('Livro deletado com sucesso')
+            })
+        })
+    }
 }

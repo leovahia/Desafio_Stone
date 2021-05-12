@@ -39,8 +39,8 @@ module.exports = class BooksDAO {
 
     insertBook(book) {
         return new Promise((res, rej) => {
-            this.bd.run('INSERT INTO LIVROS (IMAGEM, TITULO, AUTOR, PRECO) VALUES (?,?,?,?)'
-            , [book.image, book.title, book.author, book.price]
+            this.bd.run('INSERT INTO LIVROS (IMAGEM, TITULO, AUTOR, CATEGORIA, PRECO) VALUES (?,?,?,?,?)'
+            , [book.image, book.title, book.author, book.category, book.price]
             , (err) => {
                 if(err) rej('Falha ao inserir livro')
                 else res('Livro inserido com sucesso')
@@ -61,7 +61,7 @@ module.exports = class BooksDAO {
 
     deleteBook(book) {
         return new Promise((res, rej) => {
-            this.bd.run('DELETE FROM LIVROS WHERE TITULO = (?)'
+            this.bd.run('DELETE FROM LIVROS WHERE ID = (?)'
             , [book]
             , (err) => {
                 if(err) rej('Falha ao deletar o livro')

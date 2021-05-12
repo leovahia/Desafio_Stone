@@ -6,7 +6,7 @@ module.exports = class UsersDAO {
 
     getUsers() {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM USUARIOS',
+            this.bd.all('SELECT * FROM CLIENTES',
             (err, user) => {
                 if(err) rej(err)     
                 else res(user) 
@@ -17,7 +17,7 @@ module.exports = class UsersDAO {
 
     getUserById(id) {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM USUARIOS WHERE ID = (?)',
+            this.bd.all('SELECT * FROM CLIENTES WHERE ID = (?)',
             [id],
             (err, usuario) => {
                 if(err) rej(err)
@@ -28,8 +28,8 @@ module.exports = class UsersDAO {
 
     insertUser(user) {
         return new Promise((res, rej) => {
-            this.bd.run('INSERT INTO USUARIOS (NOME, EMAIL, SENHA, CEP) VALUES (?, ?, ?, ?)'
-            , [user.nome, user.email, user.senha, user.cep]
+            this.bd.run('INSERT INTO CLIENTES (NOME, EMAIL, SENHA, CEP) VALUES (?, ?, ?, ?)'
+            , [user.name, user.email, user.password, user.cep]
             , (err) => {
                 if(err) rej('Falha ao inserir o usuario')
                 else res('Usuário cadastrado com sucesso')
@@ -39,7 +39,7 @@ module.exports = class UsersDAO {
 
     modifyUser(user, body) {
         return new Promise((res, rej) => {
-            this.bd.run('UPDATE VENDAS SET NOME = (?), EMAIL = (?) WHERE ID = (?)'
+            this.bd.run('UPDATE CLIENTES SET NOME = (?), EMAIL = (?) WHERE ID = (?)'
             , [body.descricao, body.status, user ]
             , (err) => {
                 if(err) rej('Falha ao alterar o usuário')
@@ -50,7 +50,7 @@ module.exports = class UsersDAO {
 
     deleteUser(user) {
         return new Promise((res, rej) => {
-            this.bd.run('DELETE FROM USUARIOS WHERE ID = (?)'
+            this.bd.run('DELETE FROM CLIENTES WHERE ID = (?)'
             , [user]
             , (err) => {
                 if(err) rej('Falha ao deletar o usuário')

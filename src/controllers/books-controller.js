@@ -25,7 +25,7 @@ function booksController(app, db) {
 
     app.post('/books', (req, res) => {
         const body = req.body   
-        const book = new BooksModel(0, body.image, body.title, body.author, body.price)
+        const book = new BooksModel(0, body.image, body.title, body.author, body.category, body.price)
         DAO.insertBook(book)
             .then(book => res.send(book))
             .catch(err => res.send(err))
@@ -37,12 +37,11 @@ function booksController(app, db) {
         DAO.modifyBook(id, body)
             .then(book => res.send(`${book} alterado com sucesso`))
             .catch(err => res.send(err))
-
     })
 
     app.delete('/books/:id', (req, res) => {
         const id = req.params.id
-        DAO.getBookById(id)
+        DAO.deleteBook(id)
             .then(book => res.send(`Livro removido com sucesso`))
             .catch(err =>  res.send(`Falha ao remover o ${book}`))
     })

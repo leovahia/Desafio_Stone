@@ -19,7 +19,7 @@ function salesController(app, db) {
 
     app.post('/users', (req, res) => {
         const body = req.body   
-        const user = new UsersModel(0, body.status, body.description)
+        const user = new UsersModel(0, body.name, body.email, body.password, body.cep)
         DAO.insertUser(user)
             .then(user => res.send(user))
             .catch(err => res.send(err))
@@ -31,7 +31,13 @@ function salesController(app, db) {
         DAO.modifyUser(id, body)
             .then(sale => res.send(`O usuário foi alterado com sucesso`))
             .catch(err => res.send(err))
+    })
 
+    app.delete('/users/:id', (req, res) => {
+        const { id } = req.params
+        DAO.deleteUser(id)
+            .then(user => res.send(`Usuário removido com sucesso`))
+            .catch(err =>  res.send(`Falha ao remover o usuário`))
     })
 }
 
