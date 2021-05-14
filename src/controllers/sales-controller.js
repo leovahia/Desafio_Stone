@@ -25,7 +25,7 @@ function salesController(app, db) {
 
     app.post('/sales', (req, res) => {
         const body = req.body   
-        const sale = new SalesModel(0, body.status, body.description, body.price, id_usuario, id_livro)
+        const sale = new SalesModel(0, body.status, body.price, body.id_livro, body.id_cliente)
         DAO.insertSale(sale)
             .then(sale => res.send(sale))
             .catch(err => res.send(err))

@@ -43,7 +43,6 @@ const VENDAS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS "VENDAS" (
     "ID" INTEGER PRIMARY KEY AUTOINCREMENT,
     "STATUS" varchar(64),
-    "DESCRICAO" varchar(64),
     "PRECO" varchar(15),
     "ID_LIVRO" integer,
     "ID_CLIENTE" integer,
@@ -52,12 +51,11 @@ CREATE TABLE IF NOT EXISTS "VENDAS" (
 );`;
 
 const ADD_VENDAS_DATA = `
-INSERT INTO VENDAS (ID, STATUS, DESCRICAO, PRECO, ID_LIVRO, ID_CLIENTE)
+INSERT INTO VENDAS (ID, STATUS, PRECO, ID_CLIENTE, ID_LIVRO )
 VALUES
     (
         1,
         'Efetivada',
-        'Harry Potter, a 1ª venda',
         '50.00',
         1,
         1

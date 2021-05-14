@@ -39,8 +39,8 @@ module.exports = class SalesDAO {
 
     insertSale(sale) {
         return new Promise((res, rej) => {
-            this.bd.run('INSERT INTO VENDAS (STATUS, DESCRICAO, PRECO) VALUES (?, ?, ?)'
-            , [sale.status, sale.description, sale.price]
+            this.bd.run('INSERT INTO VENDAS (STATUS, PRECO, ID_CLIENTE, ID_LIVRO) VALUES (?, ?, ?, ?)'
+            , [sale.status, sale.price, sale.id_cliente, sale.id_livro]
             , (err) => {
                 if(err) rej('Falha ao inserir a venda')
                 else res('Venda inserida com sucesso')
