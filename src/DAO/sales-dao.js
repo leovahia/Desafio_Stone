@@ -6,7 +6,7 @@ module.exports = class SalesDAO {
 
     getSales() {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM VENDAS',
+            this.bd.all('SELECT * FROM SALES',
             (err, sales) => {
                 if(err) rej(err)     
                 else res(sales) 
@@ -17,7 +17,7 @@ module.exports = class SalesDAO {
 
     getSaleById(id) {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM VENDAS WHERE ID = (?)',
+            this.bd.all('SELECT * FROM SALES WHERE ID = (?)',
             [id],
             (err, sale) => {
                 if(err) rej(err)
@@ -28,7 +28,7 @@ module.exports = class SalesDAO {
 
     getSaleByStatus(status) {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM VENDAS WHERE STATUS = (?)',
+            this.bd.all('SELECT * FROM SALES WHERE STATUS = (?)',
             [status],
             (err, sales) => {
                 if(err) rej(err)
@@ -39,8 +39,8 @@ module.exports = class SalesDAO {
 
     insertSale(sale) {
         return new Promise((res, rej) => {
-            this.bd.run('INSERT INTO VENDAS (STATUS, PRECO, ID_CLIENTE, ID_LIVRO) VALUES (?, ?, ?, ?)'
-            , [sale.status, sale.price, sale.id_cliente, sale.id_livro]
+            this.bd.run('INSERT INTO VENDAS (STATUS, PRICE, ID_BOOK, ID_USER) VALUES (?, ?, ?, ?)'
+            , [sale.status, sale.price, sale.id_book, sale.id_user]
             , (err) => {
                 if(err) rej('Falha ao inserir a venda')
                 else res('Venda inserida com sucesso')
@@ -50,8 +50,8 @@ module.exports = class SalesDAO {
 
     modifySale(sale, body) {
         return new Promise((res, rej) => {
-            this.bd.run('UPDATE VENDAS SET DESCRICAO = (?), STATUS = (?) WHERE ID = (?)'
-            , [body.descricao, body.status, sale]
+            this.bd.run('UPDATE SALES SET STATUS = (?) WHERE ID = (?)'
+            , [body.status, sale]
             , (err) => {
                 if(err) rej('Falha ao alterar a venda')
                 else res('Venda alterada com sucesso')
@@ -61,7 +61,7 @@ module.exports = class SalesDAO {
 
     deleteBook(book) {
         return new Promise((res, rej) => {
-            this.bd.run('DELETE FROM VENDAS WHERE ID = (?)'
+            this.bd.run('DELETE FROM SALES WHERE ID = (?)'
             , [book]
             , (err) => {
                 if(err) rej('Falha ao deletar o livro')

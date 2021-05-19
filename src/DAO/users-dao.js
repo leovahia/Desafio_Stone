@@ -6,7 +6,7 @@ module.exports = class UsersDAO {
 
     getUsers() {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM CLIENTES',
+            this.bd.all('SELECT * FROM USERS',
             (err, user) => {
                 if(err) rej(err)     
                 else res(user) 
@@ -17,7 +17,7 @@ module.exports = class UsersDAO {
 
     getUserById(id) {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM CLIENTES WHERE ID = (?)',
+            this.bd.all('SELECT * FROM USERS WHERE ID = (?)',
             [id],
             (err, usuario) => {
                 if(err) rej(err)
@@ -28,8 +28,8 @@ module.exports = class UsersDAO {
 
     insertUser(user) {
         return new Promise((res, rej) => {
-            this.bd.run('INSERT INTO CLIENTES (NOME, EMAIL, SENHA, CEP) VALUES (?, ?, ?, ?)'
-            , [user.name, user.email, user.password, user.cep]
+            this.bd.run('INSERT INTO USERS (NAME, EMAIL, ZIP CODE) VALUES (?, ?, ?)'
+            , [user.name, user.email, user.zipCode]
             , (err) => {
                 if(err) rej('Falha ao inserir o usuario')
                 else res('Usuário cadastrado com sucesso')
@@ -39,8 +39,8 @@ module.exports = class UsersDAO {
 
     modifyUser(user, body) {
         return new Promise((res, rej) => {
-            this.bd.run('UPDATE CLIENTES SET NOME = (?), EMAIL = (?) WHERE ID = (?)'
-            , [body.descricao, body.status, user ]
+            this.bd.run('UPDATE USERS SET NAME = (?), EMAIL = (?), ZIP CODE = (?) WHERE ID = (?)'
+            , [body.name, body.email, body.zipCode, user ]
             , (err) => {
                 if(err) rej('Falha ao alterar o usuário')
                 else res('Usuário alterado com sucesso')
@@ -50,7 +50,7 @@ module.exports = class UsersDAO {
 
     deleteUser(user) {
         return new Promise((res, rej) => {
-            this.bd.run('DELETE FROM CLIENTES WHERE ID = (?)'
+            this.bd.run('DELETE FROM USERS WHERE ID = (?)'
             , [user]
             , (err) => {
                 if(err) rej('Falha ao deletar o usuário')

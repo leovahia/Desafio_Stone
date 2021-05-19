@@ -1,23 +1,22 @@
 module.exports = class BooksDAO {
-
-    constructor(bd) {
-        this.bd = bd;
+    
+    constructor(pool) {
+        this.pool = pool;
     }
-
+    
     getBooks() {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM LIVROS',
+            this.pool.query('SELECT * FROM BOOKS',
             (err, books) => {
-                if(err) rej(err)     
+                if(err) rej(err) 
                 else res(books) 
             })
-
         } 
     )}
 
     getBookById(id) {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM LIVROS WHERE ID = (?)',
+            this.bd.all('SELECT * FROM BOOKS WHERE ID = (?)',
             [id],
             (err, book) => {
                 if(err) rej(err)
@@ -28,7 +27,7 @@ module.exports = class BooksDAO {
 
     getBookByTitle(title) {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM LIVROS WHERE TITULO = (?)',
+            this.bd.all('SELECT * FROM BOOKS WHERE TITLE = (?)',
             [title],
             (err, book) => {
                 if(err) rej(err)
@@ -39,7 +38,7 @@ module.exports = class BooksDAO {
 
     insertBook(book) {
         return new Promise((res, rej) => {
-            this.bd.run('INSERT INTO LIVROS (IMAGEM, TITULO, AUTOR, CATEGORIA, PRECO) VALUES (?,?,?,?,?)'
+            this.bd.run('INSERT INTO BOOKS (IMAGE, TITLE, AUTHOR, CATEGORY, PRICE) VALUES (?,?,?,?,?)'
             , [book.image, book.title, book.author, book.category, book.price]
             , (err) => {
                 if(err) rej('Falha ao inserir livro')
@@ -50,18 +49,18 @@ module.exports = class BooksDAO {
 
     modifyBook(book, body) {
         return new Promise((res, rej) => {
-            this.bd.run('UPDATE LIVROS SET DESCRICAO = (?), STATUS = (?) WHERE TITULO = (?)'
-            , [body.descricao, body.status, book ]
+            this.bd.run('UPDATE BOOKS SET TITLE = (?), AUTHOR = (?), PRICE = (?) WHERE ID = (?)'
+            , [body.title, body.author, body.price, book ]
             , (err) => {
-                if(err) rej('Falha ao alterar a tarefa')
-                else res('Tarefa alterada com sucesso')
+                if(err) rej('Falha ao alterar o livro')
+                else res('Livro alterado com sucesso')
             })
         })
     }
 
     deleteBook(book) {
         return new Promise((res, rej) => {
-            this.bd.run('DELETE FROM LIVROS WHERE ID = (?)'
+            this.bd.run('DELETE FROM BOOKS WHERE ID = (?)'
             , [book]
             , (err) => {
                 if(err) rej('Falha ao deletar o livro')

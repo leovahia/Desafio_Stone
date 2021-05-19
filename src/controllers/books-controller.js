@@ -1,13 +1,15 @@
 const BooksModel = require('../models/books-model')
 const BooksDAO = require('../DAO/books-dao')
 
-function booksController(app, db) {
-    const DAO = new BooksDAO(db)
+function booksController(app, pool) {
+    const DAO = new BooksDAO(pool)
     app.get('/books', (req, res) => {
         DAO.getBooks()
-            .then(books => res.send(books))
+            .then(books => res.status(200).send(books))
             .catch(err => res.send(err))
     })
+
+    // Dar catch em qualquer erro, sugestão: conectar o bd
 
     app.get('/books/:id', (req, res) => {
         const {id} = req.params
@@ -27,8 +29,8 @@ function booksController(app, db) {
         const body = req.body   
         const book = new BooksModel(0, body.image, body.title, body.author, body.category, body.price)
         DAO.insertBook(book)
-            .then(book => res.send(book))
-            .catch(err => res.send(err))
+            .then(book => res.status(200).send(book))
+            .catch(err => res.status(404).send(err))
     })
 
     app.put('/books/:id', (req, res) => {
@@ -48,3 +50,9 @@ function booksController(app, db) {
 }
 
 module.exports = booksController;
+
+
+
+
+
+
