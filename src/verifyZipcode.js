@@ -1,11 +1,11 @@
 const fetch = require('node-fetch')
 const api = 'https://viacep.com.br/ws/'
 
-async function verificarCep(cep) {
-    const resp = await fetch(`${api}/${cep}/json`)
+async function verifyZipcode(zipCode) {
+    const resp = await fetch(`${api}/${zipCode}/json`)
     const data = await resp.json()
         console.log(data);
     
 }
 
-verificarCep('09090640')
+verifyZipcode('09090640')

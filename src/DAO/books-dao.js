@@ -1,12 +1,12 @@
 module.exports = class BooksDAO {
     
     constructor(pool) {
-        this.pool = pool;
+        this.pool = pool
     }
     
     getBooks() {
         return new Promise((res, rej) => {
-            this.pool.query('SELECT * FROM BOOKS',
+            this.pool.query('SELECT * FROM books',
             (err, books) => {
                 if(err) rej(err) 
                 else res(books) 
@@ -16,7 +16,7 @@ module.exports = class BooksDAO {
 
     getBookById(id) {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM BOOKS WHERE ID = (?)',
+            this.pool.query('SELECT * FROM books WHERE id = $1',
             [id],
             (err, book) => {
                 if(err) rej(err)
@@ -27,7 +27,7 @@ module.exports = class BooksDAO {
 
     getBookByTitle(title) {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM BOOKS WHERE TITLE = (?)',
+            this.pool.query('SELECT * FROM books WHERE title = $1',
             [title],
             (err, book) => {
                 if(err) rej(err)
@@ -38,7 +38,7 @@ module.exports = class BooksDAO {
 
     insertBook(book) {
         return new Promise((res, rej) => {
-            this.bd.run('INSERT INTO BOOKS (IMAGE, TITLE, AUTHOR, CATEGORY, PRICE) VALUES (?,?,?,?,?)'
+            this.pool.query('INSERT INTO books (image, title, author, category, price) VALUES ($1, $2, $3, $4, $5)'
             , [book.image, book.title, book.author, book.category, book.price]
             , (err) => {
                 if(err) rej('Falha ao inserir livro')
@@ -49,8 +49,8 @@ module.exports = class BooksDAO {
 
     modifyBook(book, body) {
         return new Promise((res, rej) => {
-            this.bd.run('UPDATE BOOKS SET TITLE = (?), AUTHOR = (?), PRICE = (?) WHERE ID = (?)'
-            , [body.title, body.author, body.price, book ]
+            this.pool.query('UPDATE books SET title = $1, author = $2, price = $3 WHERE id = $4'
+            , [body.title, body.author, body.price, book]
             , (err) => {
                 if(err) rej('Falha ao alterar o livro')
                 else res('Livro alterado com sucesso')
@@ -60,7 +60,7 @@ module.exports = class BooksDAO {
 
     deleteBook(book) {
         return new Promise((res, rej) => {
-            this.bd.run('DELETE FROM BOOKS WHERE ID = (?)'
+            this.pool.query('DELETE FROM books WHERE id = $1'
             , [book]
             , (err) => {
                 if(err) rej('Falha ao deletar o livro')

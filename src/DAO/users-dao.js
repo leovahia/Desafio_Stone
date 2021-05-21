@@ -1,12 +1,12 @@
 module.exports = class UsersDAO {
 
-    constructor(bd) {
-        this.bd = bd;
+    constructor(pool) {
+        this.pool = pool;
     }
 
     getUsers() {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM USERS',
+            this.pool.query('SELECT * FROM users',
             (err, user) => {
                 if(err) rej(err)     
                 else res(user) 
@@ -17,7 +17,7 @@ module.exports = class UsersDAO {
 
     getUserById(id) {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM USERS WHERE ID = (?)',
+            this.pool.query('SELECT * FROM users WHERE id = $1',
             [id],
             (err, usuario) => {
                 if(err) rej(err)
@@ -28,7 +28,7 @@ module.exports = class UsersDAO {
 
     insertUser(user) {
         return new Promise((res, rej) => {
-            this.bd.run('INSERT INTO USERS (NAME, EMAIL, ZIP CODE) VALUES (?, ?, ?)'
+            this.pool.query('INSERT INTO users (name, email, zipcode) VALUES ($1, $2, $3)'
             , [user.name, user.email, user.zipCode]
             , (err) => {
                 if(err) rej('Falha ao inserir o usuario')
@@ -39,7 +39,7 @@ module.exports = class UsersDAO {
 
     modifyUser(user, body) {
         return new Promise((res, rej) => {
-            this.bd.run('UPDATE USERS SET NAME = (?), EMAIL = (?), ZIP CODE = (?) WHERE ID = (?)'
+            this.pool.query('UPDATE users SET name = $1, email = $2, zipcode = $3 WHERE ID = $4'
             , [body.name, body.email, body.zipCode, user ]
             , (err) => {
                 if(err) rej('Falha ao alterar o usuário')
@@ -50,8 +50,8 @@ module.exports = class UsersDAO {
 
     deleteUser(user) {
         return new Promise((res, rej) => {
-            this.bd.run('DELETE FROM USERS WHERE ID = (?)'
-            , [user]
+            this.pool.query('DELETE FROM users WHERE ID = $1'
+            ,[user]
             , (err) => {
                 if(err) rej('Falha ao deletar o usuário')
                 else res('Usuário deletado com sucesso')

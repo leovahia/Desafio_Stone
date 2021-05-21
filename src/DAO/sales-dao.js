@@ -1,12 +1,12 @@
 module.exports = class SalesDAO {
 
-    constructor(bd) {
-        this.bd = bd;
+    constructor(pool) {
+        this.pool = pool;
     }
 
     getSales() {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM SALES',
+            this.pool.query('SELECT * FROM sales',
             (err, sales) => {
                 if(err) rej(err)     
                 else res(sales) 
@@ -17,7 +17,7 @@ module.exports = class SalesDAO {
 
     getSaleById(id) {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM SALES WHERE ID = (?)',
+            this.pool.query('SELECT * FROM sales WHERE id = $1',
             [id],
             (err, sale) => {
                 if(err) rej(err)
@@ -28,7 +28,7 @@ module.exports = class SalesDAO {
 
     getSaleByStatus(status) {
         return new Promise((res, rej) => {
-            this.bd.all('SELECT * FROM SALES WHERE STATUS = (?)',
+            this.pool.query('SELECT * FROM sales WHERE status = $1',
             [status],
             (err, sales) => {
                 if(err) rej(err)
@@ -39,7 +39,7 @@ module.exports = class SalesDAO {
 
     insertSale(sale) {
         return new Promise((res, rej) => {
-            this.bd.run('INSERT INTO VENDAS (STATUS, PRICE, ID_BOOK, ID_USER) VALUES (?, ?, ?, ?)'
+            this.pool.query('INSERT INTO sales (status, price, id_book, id_user) VALUES ($1, $2, $3, $4)'
             , [sale.status, sale.price, sale.id_book, sale.id_user]
             , (err) => {
                 if(err) rej('Falha ao inserir a venda')
@@ -50,7 +50,7 @@ module.exports = class SalesDAO {
 
     modifySale(sale, body) {
         return new Promise((res, rej) => {
-            this.bd.run('UPDATE SALES SET STATUS = (?) WHERE ID = (?)'
+            this.pool.query('UPDATE sales SET status = $1 WHERE id = $2'
             , [body.status, sale]
             , (err) => {
                 if(err) rej('Falha ao alterar a venda')
@@ -61,7 +61,7 @@ module.exports = class SalesDAO {
 
     deleteBook(book) {
         return new Promise((res, rej) => {
-            this.bd.run('DELETE FROM SALES WHERE ID = (?)'
+            this.pool.query('DELETE FROM sales WHERE id = $1'
             , [book]
             , (err) => {
                 if(err) rej('Falha ao deletar o livro')
